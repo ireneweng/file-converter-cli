@@ -1,0 +1,47 @@
+[[colors]]
+color = "black"
+category = "hue"
+type = "primary"
+
+[colors.code]
+rgba = [ 255, 255, 255, 1,]
+hex = "#000"
+[[colors]]
+color = "white"
+category = "value"
+
+[colors.code]
+rgba = [ 0, 0, 0, 1,]
+hex = "#FFF"
+[[colors]]
+color = "red"
+category = "hue"
+type = "primary"
+
+[colors.code]
+rgba = [ 255, 0, 0, 1,]
+hex = "#FF0"
+[[colors]]
+color = "blue"
+category = "hue"
+type = "primary"
+
+[colors.code]
+rgba = [ 0, 0, 255, 1,]
+hex = "#00F"
+[[colors]]
+color = "yellow"
+category = "hue"
+type = "primary"
+
+[colors.code]
+rgba = [ 255, 255, 0, 1,]
+hex = "#FF0"
+[[colors]]
+color = "green"
+category = "hue"
+type = "secondary"
+
+[colors.code]
+rgba = [ 0, 255, 0, 1,]
+hex = "#0F0"
