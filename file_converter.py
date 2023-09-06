@@ -115,10 +115,9 @@ class FileConverter(object):
             func = getattr(self, func_name, None)
 
         if not func:
-            print(
+            raise TypeError(
                 f"Conversion from {input_type} to {output_type} not supported"
             )
-            return
         result = func(self.input_file, self.output_file)
         print(success_msg)
         return result
@@ -130,23 +129,23 @@ class FileConverter(object):
     def csv_to_html(self, input, output):
         data = pandas.read_csv(input)
         data.to_html(output)
-        return output
+        return True
 
     def csv_to_yaml(self, input, output):
         data = pandas.read_csv(input).to_dict(orient="records")
         with open(output, "w") as f:
             yaml.dump(data, f, sort_keys=False)
-        return output
+        return True
 
     def json_to_html(self, input, output):
         data = self.load_json(input)
         result = json2html.convert(json=data)
         with open(output, "w") as f:
             f.write(result)
-        return output
+        return True
 
     def json_to_yaml(self, input, output):
         data = self.load_json(input)
         with open(output, "w") as f:
             yaml.dump(data, f)
-        return output
+        return True

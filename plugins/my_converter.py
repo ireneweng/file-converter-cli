@@ -13,7 +13,7 @@ def read_json(input_file):
 def write_json(data, output_file):
     with open(output_file, "w") as f:
         json.dump(data, f)
-    return output_file
+    return True
 
 
 # TOML Functions
@@ -26,7 +26,7 @@ def read_toml(input_file):
 def write_toml(data, output_file):
     with open(output_file, "w") as f:
         toml.dump(data, f)
-    return output_file
+    return True
 
 
 # YAML Functions
@@ -39,7 +39,7 @@ def read_yaml(input_file):
 def write_yaml(data, output_file):
     with open(output_file, "w") as f:
         yaml.dump(data, f)
-    return output_file
+    return True
 
 
 # Conversion Functions
