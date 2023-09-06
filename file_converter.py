@@ -42,27 +42,12 @@ class FileConverter(object):
         self.write_func = write_func
 
     @staticmethod
-    def get_file_type(filename):
-        return (Path(filename).suffix).replace(".", "")
-
-    @staticmethod
-    def get_mod_names(plugin_name):
-        plugin = plugin_name.split(".")
-        if len(plugin) == 1:
-            return (plugin[0], "")
-        elif len(plugin) == 2:
-            mod_name, func_name = plugin
-            return (mod_name, func_name)
-        else:
-            raise TypeError("Invalid plugin format provided")
-
-    @staticmethod
     def load_module(mod_name, plugin_dir=PLUGIN_DIR):
         try:
             module = importlib.import_module(f".{mod_name}", plugin_dir)
+            return module
         except Exception as e:
             raise LoadPluginError(mod_name, e)
-        return module
 
     @staticmethod
     def load_func(module, func_name):
@@ -78,21 +63,14 @@ class FileConverter(object):
             data = json.load(f)
         return data
 
-    def custom_read_write_file(self, module, read_func, write_func):
-        reader = self.load_func(module, read_func)
-        writer = self.load_func(module, write_func)
-        data = reader(self.input_file)
-        result = writer(data, self.output_file)
-        return result
-
     def convert_file(self):
         success_msg = f"'{self.input_file}' successfully converted to '{self.output_file}'"
-        input_type = self.get_file_type(self.input_file)
-        output_type = self.get_file_type(self.output_file)
+        input_type = self._get_file_type(self.input_file)
+        output_type = self._get_file_type(self.output_file)
 
         # use custom plugin function if provided
         if self.plugin:
-            mod_name, func_name = self.get_mod_names(self.plugin)
+            mod_name, func_name = self._get_mod_names(self.plugin)
             module = self.load_module(mod_name, plugin_dir=self.plugin_dir)
 
             # use custom reader and writer if provided
@@ -101,7 +79,7 @@ class FileConverter(object):
                     raise ValueError(
                         "Must provide both read and write functions."
                     )
-                result = self.custom_read_write_file(
+                result = self._custom_read_write_file(
                     module, self.read_func, self.write_func
                 )
                 print(success_msg)
@@ -120,6 +98,30 @@ class FileConverter(object):
             )
         result = func(self.input_file, self.output_file)
         print(success_msg)
+        return result
+
+    # ----------------
+    # Helper Functions
+    # ----------------
+
+    def _get_file_type(self, filename):
+        return (Path(filename).suffix).replace(".", "")
+
+    def _get_mod_names(self, plugin_name):
+        plugin = plugin_name.split(".")
+        if len(plugin) == 1:
+            return (plugin[0], "")
+        elif len(plugin) == 2:
+            mod_name, func_name = plugin
+            return (mod_name, func_name)
+        else:
+            raise TypeError("Invalid plugin format provided")
+
+    def _custom_read_write_file(self, module, read_func, write_func):
+        reader = self.load_func(module, read_func)
+        writer = self.load_func(module, write_func)
+        data = reader(self.input_file)
+        result = writer(data, self.output_file)
         return result
 
     # --------------------

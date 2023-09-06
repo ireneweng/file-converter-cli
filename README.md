@@ -32,9 +32,9 @@ This program currently requires one of the following for custom plugins:
 
 A different implementation could dynamically find and run functions inside a module which adhere to a specific naming convention. This would make the CLI input much simpler by only requiring `--plugin {module name}` and removing the need for `--reader` and `--writer` flags. Also, the tool would not need to parse and process so many different combinations of inputs. The trade-off would be more checks to validate the module's contents conform to more rules.
 
-There are no checks to ensure custom read/write functions match the output file type, so this writes yaml to a toml file:\
+There are no checks to ensure custom read/write functions match the output file type, so this works:\
 `> ./convert examples/colors.json examples/colors.toml --plugin my_converter -r read_json -w write_yaml`\
-It is up to the user to provide correct arguments.
+It is up to the user to provide the correct arguments.
 
 ### Areas of Improvement
 - Process conditional arguments using a subparser instead of printing errors/warnings and re-setting arg variables
@@ -52,7 +52,7 @@ At its most basic, users need to provide an input file and destination output fi
 `> ./convert {input file} {output file}`
 
 ### Built-in Support
-To add built-in support for more file formats, a user can add conversion functions to the main `FileConverter` class in `file_converter.py`.\
+To add built-in support for more file formats, a user can add conversion functions to `file_converter.py`.\
 Function names must follow this naming convention: `{input file type}_to_{output file type}`\
 For example: `json_to_yaml`
 
