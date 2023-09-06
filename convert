@@ -1,0 +1,95 @@
+#!/usr/bin/env python3
+
+# python imports
+import argparse
+from pathlib import Path
+
+# custom imports
+from file_converter import FileConverter, PLUGIN_DIR
+
+
+def parse_args():
+    desc = (
+        "Convert data between different file formats, with the option to use "
+        + "custom user-defined conversion plugins."
+    )
+    parser = argparse.ArgumentParser(
+        prog="FileConverter",
+        description=desc,
+        formatter_class=argparse.RawTextHelpFormatter,
+    )
+    parser.add_argument(
+        "input_file",
+        type=str,
+        help="Input file to convert.\n\tSupported formats: csv, json\n",
+    )
+    parser.add_argument(
+        "output_file",
+        type=str,
+        help="Output file path.\n\tSupported formats: html, yaml",
+    )
+    parser.add_argument(
+        "--plugin",
+        "-p",
+        type=str,
+        help="Custom file conversion plugin to use.\n"
+        + "Must be located in 'plugins' folder unless --dir provided\n"
+        + "Must be one of the following formats:\n"
+        + " - {module name}.{function name}, ex. '--plugin my_converter.my_function'\n"
+        + " - {module name} ex. '--plugin my_converter' and used with --reader and --writer\n",
+    )
+    parser.add_argument(
+        "--dir",
+        "-d",
+        type=str,
+        default=PLUGIN_DIR,
+        help=f"Custom plugin folder path. Defaults to '{PLUGIN_DIR}'",
+    )
+    parser.add_argument(
+        "--reader",
+        "-r",
+        type=str,
+        default=None,
+        help=f"Custom reader function. Must provide its module via --plugin",
+    )
+    parser.add_argument(
+        "--writer",
+        "-w",
+        type=str,
+        default=None,
+        help=f"Custom writer function. Must provide its module via --plugin",
+    )
+    args = parser.parse_args()
+
+    if not (args.plugin and Path(args.dir).exists()):
+        print(
+            f"Custom plugin directory '{args.dir}' does not exist, "
+            + f"defaulting to '{PLUGIN_DIR}'"
+        )
+        args.dir = PLUGIN_DIR  # not the most elegant solution
+
+    if (args.reader or args.writer) and not args.plugin:
+        print("Must provide module containing reader/writer via --plugin")
+        return
+
+    return args
+
+
+def main():
+    args = parse_args()
+    if not args:
+        return
+    converter = FileConverter(
+        args.input_file,
+        args.output_file,
+        plugin=args.plugin,
+        plugin_dir=args.dir,
+        read_func=args.reader,
+        write_func=args.writer,
+    )
+    result = converter.convert_file()
+    return result
+
+
+if __name__ == "__main__":
+    main()
