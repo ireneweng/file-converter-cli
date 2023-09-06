@@ -15,6 +15,7 @@ The main goal was to make this as easy to use and extensible as possible, so I f
 ### Package Files
 - `convert` is the executable script containing the CLI tool used to parse user input
 - `file_converter.py` contains the main class used to process and run the file conversions
+- `tests.py` contains basic unit tests for valid user inputs
 - `/examples` contains example input and output files to run the program with
 - `/plugins` is the default folder used by the program to search for custom implementations
     - `my_converter.py` is an example module that can be passed into the CLI
