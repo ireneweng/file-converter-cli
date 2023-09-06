@@ -61,7 +61,9 @@ def parse_args():
     )
     args = parser.parse_args()
 
-    if not (args.plugin and Path(args.dir).exists()):
+    if args.dir != PLUGIN_DIR and not (
+        args.plugin and Path(args.dir).exists()
+    ):
         print(
             f"Custom plugin directory '{args.dir}' does not exist, "
             + f"defaulting to '{PLUGIN_DIR}'"
