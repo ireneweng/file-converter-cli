@@ -38,14 +38,15 @@ It is up to the user to provide the correct arguments.
 
 ### Areas of Improvement
 - Process conditional arguments using a subparser instead of printing errors/warnings and re-setting arg variables
-- Use better way of getting file type from input and output files, for example the current method excludes `.yml` files from yaml conversion
-- Find better ways of getting package/module/function names, i.e. utilizing `importlib.import_module` args better
+- Use better way of getting file type from input and output files
+    - for example, the current method excludes `.yml` files from yaml conversion
 - More customization via command-line options
 - More robust error and exception handling
 - Better test coverage and more detailed tests, currently only checks return code success/failure
 - Use cleaner and more robust separation between read and write functions
 - Create custom data structure for storing data between read/write functionality
     - conversions between file formats would be much easier, but this requires much more custom/manual processing
+- Find better ways of parsing and using package/module/function names, i.e. utilizing `importlib.import_module` args better
 
 ## Usage
 
@@ -58,7 +59,7 @@ Function names must follow this naming convention: `{input file type}_to_{output
 For example: `json_to_yaml`
 
 ### User-Defined Plugins
-Without modifying the main program, a user can add their conversion module to `/plugins` or their own directory inside the main package.
+Without modifying the main program, a user can add their conversion module to `/plugins` or their own package.
 
 To run the program with a custom function:\
 `> ./convert {input file} {output file} --plugin {module name}.{function name}`
@@ -75,7 +76,7 @@ To run a module's custom read and write functions:\
 `> ./convert examples/colors.json examples/colors.yaml`
 - Using custom plugin:\
 `> ./convert examples/colors.json examples/colors.yaml --plugin my_converter.json_to_yaml`
-- Using custom plugin in a different directory:\
-`> ./convert examples/colors.json examples/colors.yaml --plugin my_converter.json_to_yaml --dir my_plugins`
+- Using custom plugin in a different package:\
+`> ./convert examples/colors.json examples/colors.yaml --plugin my_converter.json_to_yaml --package my_plugins`
 - Using custom read and write functions defined inside the user-specified module:\
 `> ./convert examples/colors.json examples/colors.yaml --plugin my_converter -r read_json -w write_yaml`
