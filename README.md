@@ -39,6 +39,7 @@ It is up to the user to provide the correct arguments.
 ### Areas of Improvement
 - Process conditional arguments using a subparser instead of printing errors/warnings and re-setting arg variables
 - Use better way of getting file type from input and output files, for example the current method excludes `.yml` files from yaml conversion
+- Find better ways of getting package/module/function names, i.e. utilizing `importlib.import_module` args better
 - More customization via command-line options
 - More robust error and exception handling
 - Better test coverage and more detailed tests, currently only checks return code success/failure
@@ -62,8 +63,8 @@ Without modifying the main program, a user can add their conversion module to `/
 To run the program with a custom function:\
 `> ./convert {input file} {output file} --plugin {module name}.{function name}`
 
-To run with a custom function inside a different folder:\
-`> ./convert {input file} {output file} --plugin {module name}.{function name} --dir {folder name}`
+To run with a custom function inside a different package:\
+`> ./convert {input file} {output file} --plugin {module name}.{function name} --package {package name}`
 
 To run a module's custom read and write functions:\
 `> ./convert {input file} {output file} --plugin {module name} --reader {read function} --writer {write function}`

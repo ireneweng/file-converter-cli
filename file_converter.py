@@ -5,7 +5,7 @@ import yaml
 from json2html import *
 from pathlib import Path
 
-PLUGIN_DIR = "plugins"
+PACKAGE = "plugins"
 
 
 class LoadPluginError(Exception):
@@ -30,21 +30,21 @@ class FileConverter(object):
         input_file,
         output_file,
         plugin=None,
-        plugin_dir=PLUGIN_DIR,
+        package=PACKAGE,
         read_func=None,
         write_func=None,
     ):
         self.input_file = input_file
         self.output_file = output_file
         self.plugin = plugin
-        self.plugin_dir = plugin_dir
+        self.package = PACKAGE
         self.read_func = read_func
         self.write_func = write_func
 
     @staticmethod
-    def load_module(mod_name, plugin_dir=PLUGIN_DIR):
+    def load_module(mod_name, package=PACKAGE):
         try:
-            module = importlib.import_module(f".{mod_name}", plugin_dir)
+            module = importlib.import_module(f".{mod_name}", package)
             return module
         except Exception as e:
             raise LoadPluginError(mod_name, e)
@@ -71,7 +71,7 @@ class FileConverter(object):
         # use custom plugin function if provided
         if self.plugin:
             mod_name, func_name = self._get_mod_names(self.plugin)
-            module = self.load_module(mod_name, plugin_dir=self.plugin_dir)
+            module = self.load_module(mod_name, package=self.package)
 
             # use custom reader and writer if provided
             if not func_name:

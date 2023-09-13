@@ -5,7 +5,7 @@ import argparse
 from pathlib import Path
 
 # custom imports
-from file_converter import FileConverter, PLUGIN_DIR
+from file_converter import FileConverter, PACKAGE
 
 
 def parse_args():
@@ -30,20 +30,20 @@ def parse_args():
     )
     parser.add_argument(
         "--plugin",
-        "-p",
+        "-pl",
         type=str,
         help="Custom file conversion plugin to use.\n"
-        + "Must be located in 'plugins' folder unless --dir provided\n"
+        + "Must be located in 'plugins' package unless --package provided\n"
         + "Must be one of the following formats:\n"
         + " - {module name}.{function name}, ex. '--plugin my_converter.my_function'\n"
         + " - {module name} ex. '--plugin my_converter' and used with --reader and --writer\n",
     )
     parser.add_argument(
-        "--dir",
-        "-d",
+        "--package",
+        "-pkg",
         type=str,
-        default=PLUGIN_DIR,
-        help=f"Custom plugin folder path. Defaults to '{PLUGIN_DIR}'",
+        default=PACKAGE,
+        help=f"Custom package name. Defaults to '{PACKAGE}'",
     )
     parser.add_argument(
         "--reader",
@@ -61,14 +61,14 @@ def parse_args():
     )
     args = parser.parse_args()
 
-    if args.dir != PLUGIN_DIR and not (
-        args.plugin and Path(args.dir).exists()
+    if args.package != PACKAGE and not (
+        args.plugin and Path(args.package).exists()
     ):
         print(
-            f"Custom plugin directory '{args.dir}' does not exist, "
-            + f"defaulting to '{PLUGIN_DIR}'"
+            f"Custom package '{args.package}' does not exist, "
+            + f"defaulting to '{PACKAGE}'"
         )
-        args.dir = PLUGIN_DIR  # not the most elegant solution
+        args.package = PACKAGE  # not the most elegant solution
 
     if (args.reader or args.writer) and not args.plugin:
         print("Must provide module containing reader/writer via --plugin")
@@ -85,7 +85,7 @@ def main():
         args.input_file,
         args.output_file,
         plugin=args.plugin,
-        plugin_dir=args.dir,
+        package=args.package,
         read_func=args.reader,
         write_func=args.writer,
     )
