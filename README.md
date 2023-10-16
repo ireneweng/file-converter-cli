@@ -32,8 +32,10 @@ This program currently requires one of the following for custom plugins:
 
 A different implementation could dynamically find and run functions inside a module which adhere to a specific naming convention. This would make the CLI input much simpler by only requiring `--plugin {module name}` and removing the need for `--reader` and `--writer` flags. Also, the tool would not need to parse and process so many different combinations of inputs. The trade-off would be more checks to validate the module's contents conform to more rules.
 
-There are no checks to ensure custom read/write functions match the output file type, so this works:\
-`> ./convert examples/colors.json examples/colors.toml --plugin my_converter -r read_json -w write_yaml`\
+There are no checks to ensure custom read/write functions match the output file type, so this works:
+
+    ./convert examples/colors.json examples/colors.toml --plugin my_converter -r read_json -w write_yaml
+
 It is up to the user to provide the correct arguments.
 
 ### Areas of Improvement
@@ -50,8 +52,10 @@ It is up to the user to provide the correct arguments.
 
 ## Usage
 
-At its most basic, users need to provide an input file and destination output file path:\
-`> ./convert {input file} {output file}`
+At its most basic, users need to provide an input file and destination output file path:
+
+    ./convert {input file} {output file}
+    ./convert examples/colors.json examples/colors.yaml
 
 ### Built-in Support
 To add built-in support for more file formats, a user can add conversion functions to `file_converter.py`.\
@@ -61,22 +65,17 @@ For example: `json_to_yaml`
 ### User-Defined Plugins
 Without modifying the main program, a user can add their conversion module to `/plugins` or their own package.
 
-To run the program with a custom function:\
-`> ./convert {input file} {output file} --plugin {module name}.{function name}`
+To run the program with a custom function:
 
-To run with a custom function inside a different package:\
-`> ./convert {input file} {output file} --plugin {module name}.{function name} --package {package name}`
+    ./convert {input file} {output file} --plugin {module name}.{function name}
+    ./convert examples/colors.json examples/colors.yaml --plugin my_converter.json_to_yaml
 
-To run a module's custom read and write functions:\
-`> ./convert {input file} {output file} --plugin {module name} --reader {read function} --writer {write function}`
+To run with a custom function inside a different package:
 
+    ./convert {input file} {output file} --plugin {module name}.{function name} --package {package name}
+    ./convert examples/colors.json examples/colors.yaml --plugin my_converter.json_to_yaml --package my_plugins
 
-### Examples
-- Convert from json to yaml using built-in converter:\
-`> ./convert examples/colors.json examples/colors.yaml`
-- Using custom plugin:\
-`> ./convert examples/colors.json examples/colors.yaml --plugin my_converter.json_to_yaml`
-- Using custom plugin in a different package:\
-`> ./convert examples/colors.json examples/colors.yaml --plugin my_converter.json_to_yaml --package my_plugins`
-- Using custom read and write functions defined inside the user-specified module:\
-`> ./convert examples/colors.json examples/colors.yaml --plugin my_converter -r read_json -w write_yaml`
+To run a module's custom read and write functions:
+
+    ./convert {input file} {output file} --plugin {module name} --reader {read function} --writer {write function}
+    ./convert examples/colors.json examples/colors.yaml --plugin my_converter -r read_json -w write_yaml
