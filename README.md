@@ -13,12 +13,12 @@ The main goal was to make this as easy to use and extensible as possible, so I f
 - [toml](https://pypi.org/project/toml/)
 
 ### Package Files
-- `convert` is the executable script containing the CLI tool used to parse user input
-- `file_converter.py` contains the main class used to process and run the file conversions
-- `tests.py` contains basic unit tests for valid user inputs
-- `/examples` contains example input and output files to run the program with
-- `/plugins` is the default folder used by the program to search for custom implementations
-    - `my_converter.py` is an example module that can be passed into the CLI
+- [`convert`](convert): executable script containing the CLI tool used to parse user input
+- [`file_converter.py`](file_converter.py): module used to process and run the file conversions
+- [`tests.py`](tests.py): module containing basic unit tests for valid user inputs
+- [`/examples`](examples): folder containing example input and output files to run the program with
+- [`/plugins`](plugins): default folder used by the program to search for custom implementations
+    - [`my_converter.py`](my_converter.py): example module that can be passed into the CLI
 
 ### Considerations
 
