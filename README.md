@@ -1,9 +1,8 @@
 # File Converter CLI
+A simple file conversion tool with support for user-defined conversion plugins.
 
 ## Overview
-A simple file conversion command-line tool with support for user-defined conversion plugins.
-
-The main goal was to make this as easy to use and extensible as possible, so I focused mainly on plugin support features and less on the types of supported file formats.
+This is a very basic demo of a Python command-line interface, originally completed in one week for a coding test.
 
 ### Requirements
 - Python 3
